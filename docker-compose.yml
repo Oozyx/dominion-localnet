@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  dominion0:
+    container_name: localnet-dominion-node-0
+    image: dominiond
+    build:
+      context: $DOMINION_CODE_DIR
+      dockerfile: Dockerfile
+    ports:
+      - "26656-26657:26656-26657"
+      - "1317:1317"
+      - "9090:9090"
+      - "2345:2345"
+      - "4500:4500"
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.2
+
+  dominion1:
+    container_name: localnet-dominion-node-1
+    image: dominiond
+    build:
+      context: $DOMINION_CODE_DIR
+      dockerfile: Dockerfile
+    ports:
+      - "26666-26667:26656-26657"
+      - "1318:1317"
+      - "9091:9090"
+      - "2346:2345"
+      - "4501:4500"
+    networks:
+      localnet:
+        ipv4_address: 192.168.10.3
+
+networks:
+  localnet:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 192.168.10.0/25
